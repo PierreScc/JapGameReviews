@@ -1,0 +1,31 @@
+<h1 class="my-4"><%= @game.title %></h1>
+
+<p><%= @game.description %></p>
+<p>Release Date: <%= @game.release_date %></p>
+
+<% if @rawg_game %>
+  <h2>Game Details from RAWG</h2>
+  <p><strong>Metacritic Score:</strong> <%= @rawg_game['metacritic'] %></p>
+  <p><strong>Description:</strong> <%= @rawg_game['description_raw'] %></p>
+  <% if @rawg_game['background_image'] %>
+    <img src="<%= @rawg_game['background_image'] %>" alt="<%= @game.title %>" class="img-fluid">
+  <% end %>
+<% end %>
+
+<h2 class="my-4">Reviews</h2>
+<ul class="list-group">
+  <% @game.reviews.each do |review| %>
+    <li class="list-group-item">
+      <strong><%= review.source %></strong>: <%= review.score %>/100
+      <small>(<%= review.review_date %>)</small>
+      <div class="float-right">
+        <%= link_to 'Edit', edit_game_review_path(@game, review), class: "btn btn-secondary btn-sm" %>
+        <%= link_to 'Delete', game_review_path(@game, review), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Add Review', new_game_review_path(@game), class: "btn btn-primary my-3" %>
+<%= link_to 'Edit', edit_game_path(@game), class: "btn btn-secondary" %> |
+<%= link_to 'Back', games_path, class: "btn btn-light" %>

@@ -1,0 +1,19 @@
+<h1 class="my-4">Games</h1>
+
+<%= link_to 'New Game', new_game_path, class: "btn" %>
+
+<div class="row">
+  <% @games.each do |game| %>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= link_to game.title, game_path(game) %></h5>
+        <p class="card-text">Release Date: <%= game.release_date %></p>
+        <%= link_to 'Edit', edit_game_path(game), class: "btn btn-secondary" %>
+
+        <%= form_with model: game, method: :delete, local: true do |form| %>
+          <%= form.submit 'Delete', data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
